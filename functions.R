@@ -1,4 +1,7 @@
 recoder <- function(variable) {
+  #'
+  #' Функція для перекодування порядкової шкали в псевдометричну
+  #'
   case_when(
     variable == "Very much like me" ~ 5,
     variable == "Like me" ~ 4,
@@ -10,6 +13,9 @@ recoder <- function(variable) {
 }
 
 shwartz_4 <- function(ess) {
+  #'
+  #' Узагальнення цінностей Шварца до 4-х
+  #'
   ess <- ess %>% mutate(
     impsafe = recoder(impsafe), ipstrgv = recoder(ipstrgv), ipfrule = recoder(ipfrule),
     ipbhprp = recoder(ipbhprp), ipmodst = recoder(ipmodst), imptrad = recoder(imptrad),
@@ -32,6 +38,9 @@ shwartz_4 <- function(ess) {
 }
 
 shwartz_10 <- function(ess) {
+  #'
+  #' Узагальнення цінностей Шварца до 10-ти
+  #'
   coef <- ess %>% mutate(m = (impsafe + ipstrgv + ipfrule + ipbhprp + ipmodst + imptrad + 
                                 iphlppl + iplylfr + ipeqopt + ipudrst + impenv + impdiff + 
                                 ipadvnt + ipgdtim + impfun + ipshabt + ipsuces + imprich +
@@ -51,6 +60,9 @@ shwartz_10 <- function(ess) {
 }
 
 unite <- function(spdf) {
+  #'
+  #' Об'єднання регіонів у шейп-файлах
+  #'
   cat(spdf$NAME_0[1], "\n")
   pol <- unionSpatialPolygons(spdf, spdf$NAME_1)
   pol2 <- rmapshaper::ms_simplify(pol, keep = 0.25)
@@ -64,6 +76,9 @@ unite <- function(spdf) {
 
 
 ess_region <- function(ess) {
+  #'
+  #' Уніфікація назв європейських регіонів
+  #'
   ess %>% mutate(
   region = case_when(
     cntry == "Denmark" & region == "Københavns og Frederiksberg Kommune" ~ "Hovedstaden",
@@ -363,6 +378,9 @@ ess_region <- function(ess) {
 }
 
 imoran <- function(regions_gSimplify){
+  #'
+  #' Розрахунок І Морана
+  #'
   w <- poly2nb(regions_gSimplify, paste(regions_gSimplify$id, 1:length(regions_gSimplify)))
   
   nm <- sapply(w, function(x) all(x!=0))
@@ -381,6 +399,9 @@ imoran <- function(regions_gSimplify){
 }
 
 norm_tbl <- function(tbl) {
+  #'
+  #' Нормалізація матриці зі значеннями цінностей
+  #'
   tbl[6:15] <- tbl[6:15] %>% 
     as.matrix() %>% 
     BBmisc::normalize("range", range = c(0, 5))
@@ -388,6 +409,9 @@ norm_tbl <- function(tbl) {
 }
 
 modify_A <- function(A, idx, tbl) {
+  #'
+  #' Нормалізація матриці зі значеннями цінностей
+  #'
   diag(A) <- 1
   A <- A[idx, idx]
   colnames(A) <- rownames(A) <- tbl$region
@@ -469,20 +493,3 @@ polit_residual <- function(polits_df) {
   polits_df %>% select(-r)
 }
 
-#'
-#' Вхідні параметри для функції гражієнтного бустингу
-#'
-
-params <- list(max_bin = 20,
-               learning_rate = 0.02,
-               boosting_type = 'gbdt',
-               objective = "binary",
-               metric = 'auc',
-               sub_feature = 0.8,
-               bagging_fraction = 0.85,
-               bagging_freq = 1,
-               num_leaves = 20, 
-               min_split_gain = 0.01,
-               min_data = 50,
-               min_hessian = 0.001
-)

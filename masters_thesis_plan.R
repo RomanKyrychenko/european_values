@@ -2,14 +2,13 @@
 #' Geographical distribution of social values in Europe: factors and patterns
 #' Географическое распределение социальных ценностей в Европе: факторы и закономерности
 
-
 library(drake)
 
 source("functions.R")
 source("predef.R")
 
 plan <- drake_plan(
-  ess = purrr::map_dfr(list.files(path = "~/social_data_analysis/", pattern = ".sav", full.names = T), 
+  ess = purrr::map_dfr(list.files(path = "~/social_data_analysis/data/", pattern = ".sav", full.names = T), 
                        function(x) { 
                          foreign::read.spss(x, to.data.frame = T) %>% as_tibble()
                        }) %>% 
@@ -35,7 +34,7 @@ plan <- drake_plan(
       `Self-Enhancement`, Conservation, `Self-Trancendence`, `Openness to Change`
     ) %>% ess_region(),
   reg = rbind(
-    readr::read_rds("~/social_data_analysis/gadm36_NOR_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_NOR_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Akershus" ~ "Oslo and Akershus",
@@ -59,7 +58,7 @@ plan <- drake_plan(
           NAME_1 == "Vestfold" ~ "South Eastern Norway"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_BEL_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_BEL_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Bruxelles" ~ "Brussels region",
@@ -67,7 +66,7 @@ plan <- drake_plan(
           NAME_1 == "Vlaanderen" ~ "Flemish region"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_CHE_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_CHE_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Valais" ~ "Genferseeregion",
@@ -99,7 +98,7 @@ plan <- drake_plan(
           NAME_1 == "Graubünden" ~ "Ostschweiz"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_CZE_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_CZE_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Jihočeský" ~ "South Bohemia",
@@ -118,7 +117,7 @@ plan <- drake_plan(
           NAME_1 == "Zlínský" ~ "Zlin Reg."
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_SWE_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_SWE_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Blekinge" ~ "Sydsverige",
@@ -144,7 +143,7 @@ plan <- drake_plan(
           NAME_1 == "Västra Götaland" ~ "Västsverige"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_EST_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_EST_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Harju" ~ "Põhja-Eesti",
@@ -165,11 +164,11 @@ plan <- drake_plan(
           NAME_1 == "Võru" ~ "Lõuna-Eesti"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_LUX_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_LUX_1_sp.rds") %>% 
       mutate(
         NAME_1 = "Luxembourg"
       ) %>% unite(),
-    readr::read_rds("~/social_data_analysis/gadm36_FRA_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_FRA_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Auvergne-Rhône-Alpes" ~ "Sud Est",
@@ -187,7 +186,7 @@ plan <- drake_plan(
           NAME_1 == "Provence-Alpes-Côte d'Azur" ~ "Méditerranée"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_HRV_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_HRV_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Bjelovarska-Bilogorska" ~ "Sredisnja i Istocna (Panonska) Hrvatska",
@@ -213,7 +212,7 @@ plan <- drake_plan(
           NAME_1 == "Zagrebačka" ~ "Sjeverozapadna Hrvatska"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_PRT_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_PRT_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Aveiro" ~ "Centro",
@@ -238,7 +237,7 @@ plan <- drake_plan(
           NAME_1 == "Viseu" ~ "Centro"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_SVK_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_SVK_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Banskobystrický" ~ "Banska Bystrica Reg.",
@@ -251,7 +250,7 @@ plan <- drake_plan(
           NAME_1 == "Žilinský" ~ "Zilina Reg."
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_LTU_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_LTU_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Alytaus" ~ "South Lithuania",
@@ -265,7 +264,7 @@ plan <- drake_plan(
           T ~ NAME_1
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_LVA_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_LVA_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Kurzeme" ~ "Nord-West Latvia",
@@ -275,7 +274,7 @@ plan <- drake_plan(
           NAME_1 == "Zemgale" ~ "South-East Latvia"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_XKO_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_XKO_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Đakovica" ~ "South Kosovo",
@@ -287,8 +286,8 @@ plan <- drake_plan(
           NAME_1 == "Uroševac" ~ "South Kosovo"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_SVN_1_sp.rds") %>% unite(),
-    readr::read_rds("~/social_data_analysis/gadm36_ROU_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_SVN_1_sp.rds") %>% unite(),
+    readr::read_rds("~/social_data_analysis/data/gadm36_ROU_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Alba" ~ "Centru",
@@ -334,7 +333,7 @@ plan <- drake_plan(
           NAME_1 == "Vaslui" ~ "Nord-Est",
           NAME_1 == "Vrancea" ~ "Sud-Est"
         )) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_HUN_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_HUN_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Bács-Kiskun" ~ "South- Plain",
@@ -358,7 +357,7 @@ plan <- drake_plan(
           NAME_1 == "Veszprém" ~ "Middle- Transdanubia",
           NAME_1 == "Zala" ~ "West- Transdanubia"
         )) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_BGR_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_BGR_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Blagoevgrad" ~ "South Western",
@@ -390,7 +389,7 @@ plan <- drake_plan(
           NAME_1 == "Vratsa" ~ "North Western",
           NAME_1 == "Yambol" ~ "South Eastern"
         )) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_IRL_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_IRL_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Carlow" ~ "South-Ireland",
@@ -420,7 +419,7 @@ plan <- drake_plan(
           NAME_1 == "Wexford" ~ "South-Ireland",
           NAME_1 == "Wicklow" ~ "South-Ireland"
         )) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_RUS_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_RUS_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Adygey" ~ "North Caucasus",
@@ -508,7 +507,7 @@ plan <- drake_plan(
           NAME_1 == "Zabaykal'ye" ~ "East Siberia",
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_ITA_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_ITA_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Molise" ~ "Centre Italy",
@@ -533,10 +532,10 @@ plan <- drake_plan(
           T ~ NAME_1
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_GBR_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_GRC_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_DNK_2_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_NLD_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_GBR_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_GRC_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_DNK_2_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_NLD_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Drenthe" ~ "Nord Netherlands",
@@ -549,7 +548,7 @@ plan <- drake_plan(
           T ~ NAME_1
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_TUR_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_TUR_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Adana" ~ "Mediterranean",
@@ -634,9 +633,9 @@ plan <- drake_plan(
           NAME_1 == "Yozgat" ~ "Anatolia",
           NAME_1 == "Zinguldak" ~ "Black Sea"
         )) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_POL_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_DEU_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_UKR_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_POL_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_DEU_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_UKR_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Crimea" ~ "South Ukraine",
@@ -668,8 +667,8 @@ plan <- drake_plan(
           NAME_1 == "Ternopil'" ~ "West Ukraine"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_ESP_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_ALB_1_sp.rds") %>% 
+    readr::read_rds("~/social_data_analysis/data/gadm36_ESP_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_ALB_1_sp.rds") %>% 
       mutate(
         NAME_1 = case_when(
           NAME_1 == "Shkodër" ~ "Nord Albania",
@@ -681,8 +680,8 @@ plan <- drake_plan(
           T ~ "South Albania"
         )
       ) %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_AUT_1_sp.rds") %>% unite(), 
-    readr::read_rds("~/social_data_analysis/gadm36_FIN_1_sp.rds") %>% unite()
+    readr::read_rds("~/social_data_analysis/data/gadm36_AUT_1_sp.rds") %>% unite(), 
+    readr::read_rds("~/social_data_analysis/data/gadm36_FIN_1_sp.rds") %>% unite()
   ),
   regions_gSimplify = rmapshaper::ms_simplify(reg, keep = 0.005, keep_shapes = T),
   tendenz = map_dfr(unique(ess$round_year), 
@@ -966,7 +965,7 @@ plan <- drake_plan(
                                title.position = "left", ncol = 6, 
                                keywidth = 2, keyheight = 2,
                                label.position = "bottom")),
-  ess_economy = readr::read_rds("ess_new.rds") %>% mutate(
+  ess_economy = readr::read_rds("data/ess_new.rds") %>% mutate(
     detrend_SE = lm(`Self-Enhancement` ~ birth_date, data = .) %>% resid,
     detrend_CO = lm(Conservation ~ birth_date, data = .) %>% resid,
     detrend_ST = lm(`Self-Trancendence` ~ birth_date, data = .) %>% resid,
@@ -988,8 +987,7 @@ plan <- drake_plan(
     cntry = se_cor$cntry
   ) %>% dplyr::select(9,1:6) %>% 
     mutate_at(2:7, round, 2) %>% 
-    arrange(desc(abs(estimate))) %>% 
-    knitr::kable(caption = "Кореляція частки років економічного зростання з рівнем самовдосконалення за країнами"),
+    arrange(desc(abs(estimate))),
   se_anova = ess_economy %>% 
     dplyr::select(cntry, detrend_SE, percent_growth) %>% 
     group_by(cntry) %>% do(
@@ -999,8 +997,7 @@ plan <- drake_plan(
     cntry = se_anova$cntry
   ) %>% dplyr::select(7, 3:6) %>% 
     mutate_at(2:5, round, 2) %>% 
-    arrange(p.value) %>% 
-    knitr::kable(caption = "Зв'язок частки років економічного зростання з рівнем самовдосконалення за країнами"),
+    arrange(p.value),
   co_cor = ess_economy %>% 
     dplyr::select(cntry, detrend_CO, percent_growth) %>% 
     group_by(cntry) %>% do(
@@ -1009,8 +1006,7 @@ plan <- drake_plan(
   co_cor_df = co_cor$ft %>% bind_rows() %>% mutate(
     cntry = co_cor$cntry
   ) %>% dplyr::select(9, 1:6) %>% 
-    mutate_at(2:7, round, 2) %>% arrange(desc(abs(estimate))) %>% 
-    knitr::kable(caption = "Кореляція частки років економічного зростання з рівнем консервативності за країнами"),
+    mutate_at(2:7, round, 2) %>% arrange(desc(abs(estimate))),
   co_anova = ess_economy %>% 
     dplyr::select(cntry, detrend_CO, percent_growth) %>% 
     group_by(cntry) %>% do(
@@ -1018,12 +1014,11 @@ plan <- drake_plan(
     ),
   co_anova_df = co_anova$ft %>% bind_rows() %>% mutate(
     cntry = co_anova$cntry
-  ) %>% dplyr::select(7,3:6) %>% mutate_at(2:5, round, 2) %>% arrange(`p.value`) %>% 
-    knitr::kable(caption = "Зв'язок частки років економічного зростання з рівнем консервативності за країнами"),
+  ) %>% dplyr::select(7,3:6) %>% mutate_at(2:5, round, 2) %>% arrange(`p.value`),
   #'
   #' Читаємо файл з політичними даними
   #'
-  polits_df = readr::read_rds("polits.rds") %>% 
+  polits_df = readr::read_rds("~/social_data_analysis/data/polits.rds") %>% 
     filter(!is.na(Conservation)) %>% 
     mutate_all(
       ~ifelse(is.infinite(.) | is.nan(.) | is.na(.), 0, .)
@@ -1039,7 +1034,7 @@ plan <- drake_plan(
   #'
   #' Список назв змінних з розшифровкою
   #'
-  variable_dictionary = tibble::enframe(unlist(map(haven::read_stata("Database DPI2017/DPI2017.dta"), ~attr(.,"label")))),
+  variable_dictionary = tibble::enframe(unlist(map(haven::read_stata("~/social_data_analysis/data/Database DPI2017/DPI2017.dta"), ~attr(.,"label")))),
   #'
   #' Робимо аналіз середніх
   #'
@@ -1055,16 +1050,17 @@ plan <- drake_plan(
   #'
   viz_oc = polits_df %>% 
     mutate(open = ifelse(`Openness to Change` > Conservation, "Більша відкритість до змін", "Більша консервативність")) %>% 
-    select(open, imp_oc %>% 
+    dplyr::select(open, imp_oc %>% 
              as_tibble() %>% 
              filter(Feature %in% (t_test_summary %>% filter(`p.value` == 0 & depend == "op_co") %>% pull(variable))) %>% 
              dplyr::slice(1:9) %>% pull(Feature)) %>% 
-    tidyr::pivot_longer(cols = 2:10) %>% 
+    tidyr::gather("name", "value", -open) %>% 
     group_by(name) %>% 
     mutate(value = ntile(value, 30)) %>% 
     ungroup() %>% 
-    mutate(name = paste0(name %>% stringr::str_split("_") %>% sapply(function(.).[[1]]), " (",
-                         name %>% stringr::str_split("_") %>% sapply(function(.).[[length(.)]]),")")) %>% 
+    mutate(name = as.numeric(as.factor(name))) %>% 
+    #mutate(name = paste0(name %>% stringr::str_split("_") %>% sapply(function(.).[[1]]), " (",
+    #                     name %>% stringr::str_split("_") %>% sapply(function(.).[[length(.)]]),")")) %>% 
     ggplot(aes(value, group = open, fill = open, color = NULL)) +
     scale_fill_manual(values = c("#e41a1c", "#4daf4a")) +
     geom_density(alpha = 0.8, position = "fill") +
@@ -1078,16 +1074,17 @@ plan <- drake_plan(
   #'
   viz_st = polits_df %>% 
     mutate(open = ifelse(`Self-Trancendence` > `Self-Enhancement`, "Більше самоперевершення", "Більший саморозвиток")) %>% 
-    select(open, imp_st %>% 
+    dplyr::select(open, imp_st %>% 
              as_tibble() %>% 
              filter(Feature %in% (t_test_summary %>% filter(`p.value` == 0 & depend == "st_se") %>% pull(variable))) %>% 
              dplyr::slice(1:9) %>% pull(Feature)) %>% 
-    tidyr::pivot_longer(cols = 2:10) %>% 
+    tidyr::gather("name", "value", -open) %>% 
     group_by(name) %>% 
     mutate(value = ntile(value, 30)) %>% 
     ungroup() %>% 
-    mutate(name = paste0(name %>% stringr::str_split("_") %>% sapply(function(.).[[1]]), " (",
-                         name %>% stringr::str_split("_") %>% sapply(function(.).[[length(.)]]),")")) %>% 
+    mutate(name = as.numeric(as.factor(name))) %>% 
+    #mutate(name = paste0(name %>% stringr::str_split("_") %>% sapply(function(.).[[1]]), " (",
+    #                     name %>% stringr::str_split("_") %>% sapply(function(.).[[length(.)]]),")")) %>% 
     ggplot(aes(value, group = open, fill = open, color = NULL)) +
     scale_fill_manual(values = c("#e41a1c", "#4daf4a")) +
     geom_density(alpha = 0.8, position = "fill") +
